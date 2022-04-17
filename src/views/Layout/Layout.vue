@@ -9,18 +9,14 @@
             class="el-menu-vertical-demo"
             router
           >
-            <el-menu-item index="/layout/home">
+            <el-menu-item index="/layout/home" style="margin-top: 3px">
               <i class="el-icon-menu"></i>
               <span slot="title">课程</span>
             </el-menu-item>
-         <el-menu-item index="/layout/lookRemark">
-              <i class="el-icon-edit-outline"></i>
-              <span slot="title">批阅</span>
-            </el-menu-item>
-            <el-menu-item index="/layout/profile">
+            <!-- <el-menu-item index="/layout/profile">
               <i class="el-icon-s-custom"></i>
               <span slot="title">个人中心</span>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-menu>
         </el-aside>
         <el-main>
@@ -61,6 +57,7 @@ export default {
 .el-aside {
   position: fixed;
   top: 80px;
+  height: 100%;
 }
 .el-main {
   position: absolute;

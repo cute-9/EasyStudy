@@ -6,8 +6,8 @@ import VueRouter from 'vue-router';
 import router from './router'
 // 全局工具函数
 import { parseTime } from "./utils/time"
-
-
+import axios from 'axios'
+Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);

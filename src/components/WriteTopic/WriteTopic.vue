@@ -1,6 +1,6 @@
 <template>
     <div>
-发放设置
+
     </div>
 </template>
 

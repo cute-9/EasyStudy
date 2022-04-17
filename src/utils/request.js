@@ -2,7 +2,7 @@
 import axios from "axios";
 import { Message } from 'element-ui'
 
-const BASE_URL = "http://hhhh"
+const BASE_URL = "http://lteacher.kinkrit.com:9999/teacher/"
 
 // 创建axios实例
 const service = axios.create({
@@ -13,6 +13,11 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(config => {
   //! 请求头携带token的操作
+
+ if (localStorage.getItem("token") && config.url != "/login") {
+  // config.headers['X-TOKEN'] = localStorage.getItem("token")
+  config.headers['token'] = localStorage.getItem("token")
+}
   return config
 },
   error => {

@@ -1,6 +1,6 @@
 <template>
     <div>
-题库
+AutomaticQuestion
     </div>
 </template>
 

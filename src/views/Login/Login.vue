@@ -10,14 +10,14 @@
       >
       <el-form-item>
     <div class="login_radio">
-    <el-radio-group v-model="loginForm.radio1">
+    <el-radio-group v-model="loginForm.role">
       <el-radio-button label="student"></el-radio-button>
       <el-radio-button label="teacher"></el-radio-button>
     </el-radio-group>
   </div>
       </el-form-item>
-        <el-form-item label="账号" prop="account">
-          <el-input v-model="loginForm.account"></el-input>
+        <el-form-item label="账号" prop="username">
+          <el-input v-model="loginForm.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input show-password v-model="loginForm.password"></el-input>
@@ -49,6 +49,8 @@
 <script>
 import { validUsername } from "@/utils/validate";
 import { HIdentify } from "@/components/index";
+import { login } from '@/api/login'
+import qs from 'qs'
 export default {
   name: "Login",
   components: {
@@ -79,13 +81,13 @@ export default {
     return {
       // 登录的相关数据
       loginForm: {
-        account: "admin",
-        password: "123456",
-        radio1:"student",
+        username: "张振宇",
+        password: "888888",
+        role:"teacher",
         validateCode: "",
       },
       loginRules: {
-        account: [
+        username: [
           { required: true, trigger: "blur", validator: validateAccount },
         ],
         password: [
@@ -116,10 +118,21 @@ export default {
       }
     },
     // 登录逻辑
-    handleLogin() {
+   async handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.$router.push("/");
+          login(qs.stringify({
+            username:this.loginForm.username,
+            password:this.loginForm.password,
+            role:this.loginForm.role
+          })).then((res) => {
+            window.localStorage.setItem("token",res.data.token)
+            // var id=res.data.info.id
+                     window.localStorage.setItem("id",res.data.info.id)
+                    //  console.log(res.data.info);
+            this.$router.push('/layout/home')
+          })
+          // this.$router.push("/");
         } else {
           return false;
         }
