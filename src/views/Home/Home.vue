@@ -89,7 +89,7 @@ export default {
         prDesc: "",
         prPic: "http://bytes.isekko.cn/FsPPuxHL50m5xHaBBtf6AqS6wFvj",
         prTeacher: "",
-        tcId: "5",
+        tcId: "",
       },
       currentImageIndex: "http://bytes.isekko.cn/FsPPuxHL50m5xHaBBtf6AqS6wFvj",
       infoimage: [
@@ -104,6 +104,7 @@ export default {
   },
   mounted() {
     this.info.tcId=window.localStorage.getItem('id')
+    this.newclass.tcId=window.localStorage.getItem('id')
     // this.select();
     // console.log(JSON.parse(JSON.stringify(this.info)));
 this.select();
@@ -122,8 +123,8 @@ this.select();
       this.newclass = {};
     },
     async addProjectsure() {
-      var data = this.newclass;
-      const res = await addProject(data);
+    
+      const res = await addProject(this.newclass);
       if (res.code == 200) {
         this.select()
         this.centerDialogVisible = false;

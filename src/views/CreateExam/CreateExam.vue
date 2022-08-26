@@ -25,7 +25,10 @@
               <i class="el-icon-s-data"></i>
               <span slot="title">管理</span>
             </el-menu-item>
-                    
+                        <el-menu-item index="/createExam/AnalyzeTest">
+              <i class="el-icon-office-building"></i>
+              <span slot="title">成绩</span>
+            </el-menu-item>     
           </el-menu>
         </el-aside>
         <el-main>

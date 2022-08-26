@@ -18,27 +18,37 @@
         <el-table-column prop="city" label="所在地"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <div>
             <el-button
-              @click="handleClick(scope.row)"
+            v-if="!scope.row.state"
+              @click="handleClick(scope.row.id)"
               size="small"
               icon="el-icon-circle-plus"
                type="success"
                 plain
               >添加</el-button
             >
+             <el-button
+            v-if="scope.row.state"
+              size="small"
+              icon="el-icon-circle-plus"
+               type="success"
+                plain
+              disabled
+              >已添加</el-button
+            >
+            </div>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="footer_text_data">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[5]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="9"
+        :total="records.length"
       >
       </el-pagination>
     </div>
@@ -46,49 +56,30 @@
 </template>
 
 <script>
+import {addstudent,tcaddstudent} from "@/api/addstudent"
+// import qs from 'qs'
 export default {
+
   data() {
     return {
       currentPage: 1,
+      info:{
+        name:'',
+        method:1, //
+        pr_id:3,
+        page:1, 
+        size:10
+      },
+      tcadd:{
+        stId:'',
+        prId:"",
+      },
       records: [
-        {
-          id: 6, //学生id
-          username: "李思佳", //学生姓名
-          avatar:
-            "https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg", //学生头像
-          email: "907167912@qq.com", //学生邮箱
-          city: "成都", //学生所在地
-          lastLogin: null, //最后登录时间
-          statu: 0, //
-          phone: "15388409900", //学生电话号码
-          sex: "女", //学生性别
-        },
-        {
-          id: 6, //学生id
-          username: "李思佳", //学生姓名
-          avatar:
-            "https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg", //学生头像
-          email: "907167912@qq.com", //学生邮箱
-          city: "成都", //学生所在地
-          lastLogin: null, //最后登录时间
-          statu: 0, //
-          phone: "15388409900", //学生电话号码
-          sex: "女", //学生性别
-        },
-        {
-          id: 6, //学生id
-          username: "李思佳", //学生姓名
-          avatar:
-            "https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg", //学生头像
-          email: "907167912@qq.com", //学生邮箱
-          city: "成都", //学生所在地
-          lastLogin: null, //最后登录时间
-          statu: 0, //
-          phone: "15388409900", //学生电话号码
-          sex: "女", //学生性别
-        },
       ],
     };
+  },
+  mounted() {
+this.active()
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -101,12 +92,27 @@ export default {
       }
       return "";
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+  async  handleClick(id){
+            // console.log(id);
+            this.tcadd.prId=window.localStorage.getItem("prId")
+            this.tcadd.stId=id
+            // this.$message.success("添加成功");
+            const data=await tcaddstudent(JSON.parse(JSON.stringify(this.tcadd)))
+            if(data.code==200){
+              this.$message.success("添加成功")
+                   this.active()
+            }
+            else{
+              this.$message.error("添加失败")
+            }
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
+
+   async active(){
+    //  console.log(JSON.stringify(this.info));
+        const data= await addstudent(JSON.parse(JSON.stringify(this.info)))
+        // console.log(data.data);
+        this.records=data.data.records;
+    }
   },
 };
 </script>

@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d226c7c"],{e9b4:function(n,e,t){"use strict";t.r(e);var i=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",{staticClass:"profile"},[t("h2",[n._v("个人中心")]),t("InlineEditTable")],1)},a=[],c=t("2af9"),l={name:"Myinfo",components:{InlineEditTable:c["i"]}},s=l,o=t("2877"),r=Object(o["a"])(s,i,a,!1,null,"5d683806",null);e["default"]=r.exports}}]);
+//# sourceMappingURL=chunk-2d226c7c.52ca4263.js.map

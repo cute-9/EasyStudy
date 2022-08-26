@@ -20,7 +20,7 @@
           </el-option>
         </el-select>
       </div>
-        <el-button type="primary">添加题目</el-button>
+        <el-button type="primary" @click="createNewQuestion">添加题目</el-button>
     </div>
     <question-table></question-table>
   </div>
@@ -28,6 +28,7 @@
 
 <script>
 import QuestionTable from '../QuestionTable/QuestionTable.vue'
+import {selecttype,selectlevel} from "@/api/createExam"
 export default {
 components: {
 QuestionTable
@@ -80,14 +81,35 @@ QuestionTable
             "updateTime": null
         },
         {
-            "id": 5,
-            "type": "简答题",
-            "createTime": null,
+            "id": 5,    
             "updateTime": null
         }
       ]
     };
   },
+  mounted() {
+this.questiontype()
+  },
+  methods:{
+   async searchquestion(){
+        // const data = await selecttype
+        // if(data.code ==200)
+        // console.log(data);
+    },
+        async questiontype(){
+      const data = await selecttype()
+      // console.log(data);
+this.options=data.data
+
+    },
+    async questionlevel(){
+      const data= await selectlevel()
+this.levelIdData=data.data
+    },
+    createNewQuestion(){
+      this.$router.push('/CreateNewQuestion')
+    }
+  }
 };
 </script>
 

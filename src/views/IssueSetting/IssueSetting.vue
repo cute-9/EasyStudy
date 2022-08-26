@@ -7,7 +7,7 @@
           {{ title }}
         </el-form-item>
         <el-form-item label="发放对象:">
-          <el-button type="primary" plain v-model="form.studentList">请选择学生</el-button>
+          <el-radio v-model="addstudent" label="1">已加入该课堂的学生</el-radio>
         </el-form-item>
         <el-form-item label="开始时间:">
           <div class="block">
@@ -35,19 +35,16 @@
 <el-input v-model="form.limitTime" style="width:150px"></el-input>
         </el-form-item>
         <el-form-item label="防作弊设置：">
-              <el-checkbox-group v-model="form.checkList">
-    <el-checkbox :label=number_>
-        <template>
-            允许切出屏幕<el-input v-model="number_" style="width:150px" ></el-input>次
-        </template>
-    </el-checkbox>
-    <el-checkbox label="0">题目乱序（学生接受到的题目显示顺序不同）</el-checkbox>
-    <el-checkbox label="1">选项乱序（学生答题的时候题目的选项顺序不同）</el-checkbox>
-  </el-checkbox-group>
+     <el-radio v-model="form.jumpCount" :label="form.jumpCount">
+         <template>
+            允许切出屏幕<el-input  style="width:150px" v-model="form.jumpCount" ></el-input>次
+        </template></el-radio> 
+        <el-radio v-model="form.questionDisorder" label="1">题目乱序（学生接受到的题目显示顺序不同</el-radio>
+  <el-radio v-model="form.optionDisorder" label="1">选项乱序（学生答题的时候题目的选项顺序不同）</el-radio>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="foundExam">立即创建</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -56,6 +53,8 @@
 
 <script>
 // import {HeaderBack} from "@/components/index"
+import {publicpaper} from "@/api/issueExam"
+// import qs from 'qs'
 export default {
   components: {
     // HeaderBack
@@ -64,30 +63,50 @@ export default {
     return {
       title: "大雾开花",
       number_:'',
+      addstudent:'',
+      studentId:'',
       form: {
-studentList:[],
+studentList:[6,7,8],
 startTime:'',
 endTime:'',
 limitTime:'',
-checkList:[]
+jumpCount:'3',
+questionDisorder:0,
+optionDisorder:0
       },
-        // pickerOptions: {
-        //   shortcuts: [{
-        //       text:'今天',
-        //       onClick(picker) {
-        //       const date = new Date();
-        //       date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //       picker.$emit('pick', date);
-        //     }
-        //   },
-        //   ]
-        // }
     };
   },
   methods: {
-      foundExam(){
-          console.log(this.form);
-      }
+    async  foundExam(){
+          // console.log(this.form);
+            this.form.startTime=this.GMTToStr(this.form.startTime)
+            this.form.endTime=this.GMTToStr(this.form.endTime)
+          // this.$message.success('创建成功')
+          // console.log(this.form);
+          this.studentId=this.$route.query.id
+const data = await publicpaper(this.studentId,this.form)
+if(data.code ==200){
+   this.$message.success('创建成功')
+    this.$router.push('/createExam/ExamPage')
+}
+          // this.$router.push('/createExam/ExamPage')
+          console.log(data);
+      },
+      cancel(){
+          this.$message.error('取消创建')
+
+        this.$router.push('/createExam/dataManagement')
+      },
+      GMTToStr(time){
+    let date = new Date(time)
+    let Str=date.getFullYear() + '-' +
+    (date.getMonth() + 1) + '-' + 
+    date.getDate() + ' ' + 
+    date.getHours() + ':' + 
+    date.getMinutes() + ':' + 
+    date.getSeconds()
+    return Str
+}
   }
 };
 </script>

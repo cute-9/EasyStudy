@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 const routes = [
   {
     path: "/",
-    redirect: '/layout/home',
-    component: () => import('@/views/Layout/Layout')
+    redirect: '/login',
+    component: () => import('@/views//Login/Login')
   },
   {
-    path: "/login",
+    path: "/Login",
     component: () => import('@/views//Login/Login')
   },
   {
@@ -44,6 +44,10 @@ const routes = [
   {
     path: "lookRemark",
     component: () => import('@/views/LookRemark/LookRemark')
+  },
+  {
+    path:"AnalyzeTest",
+    component: () => import('@/views/AnalyzeTest/AnalyzeTest')
   }
 
 ]
@@ -61,12 +65,16 @@ const routes = [
     component: () => import('@/views/AutomaticQuestion/AutomaticQuestion')
   },
   {
-    path:"/issueStting",
+    path:"/issueSetting",
     component: () => import('@/views/IssueSetting/IssueSetting')
   },
   {
     path:'/RecycleBin',
     component: () => import('@/views/RecycleBin/RecycleBin'),
+  },
+  {
+    path:'/CreateNewQuestion',
+    component: () => import('@/views/CreateNewQuestion/CreateNewQuestion'),
   }
 ]
 

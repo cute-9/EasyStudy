@@ -13,6 +13,10 @@
         <el-table-column prop="phone" label="学号/工作号" width="150">
         </el-table-column>
         <el-table-column prop="stStatusId" label="学生作答状态" width="120">
+          <template slot-scope="scope">
+            <div v-if="scope.row.stStatusId==1">未作答</div>
+            <div v-if="scope.row.stStatusId==2">已作答</div>
+         </template>
         </el-table-column>
         <el-table-column prop="stStartTime" label="开始时间" width="180">
         </el-table-column>
@@ -24,12 +28,12 @@
         </el-table-column>
         <el-table-column prop="stScore" label="分数" width="50"> </el-table-column>
         <el-table-column prop="approve" label="批阅状态" width="100"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="isable">
           <template slot-scope="scope">
-            <el-button size="small" icon="el-icon-magic-stick" type="primary" @click="handleClick(scope.row)"
+            <el-button size="small" icon="el-icon-magic-stick" type="primary" 
               >批阅</el-button
             >
-            <el-button size="small" icon="el-icon-refresh-left" type="danger"
+            <el-button size="small" icon="el-icon-refresh-left" type="danger" @click="handleClick(scope.row.id)"
               >打回去重做</el-button
             >
           </template>
@@ -42,9 +46,9 @@
         @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[5]"
-        :page-size="100"
+        :page-size="5"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="9"
+        :total="total"
       >
       </el-pagination>
     </div>
@@ -52,10 +56,21 @@
 </template>
 
 <script>
+import { RecycleBinExam } from "@/api/correctExam";
+// import qs from 'qs'
 export default {
+  props:[
+    "isable"],
   data() {
     return {
       currentPage: 1,
+      info:{
+        pub_id: "",
+        st_status_id:1,
+        page:1,
+      size:10
+      },
+      total:1,
       records: [
         {
           id: 1,
@@ -70,7 +85,7 @@ export default {
           correctRate: null,
           stScore: 50,
           approveId: 1,
-          approve: "未批阅",
+          approve: "已批阅",
           appIp: null,
           stId: null,
           username: "李思佳",
@@ -78,71 +93,11 @@ export default {
           city: "成都",
           phone: "15388409900",
         },
-        {
-          id: 2,
-          pubId: 3,
-          stName: "陈世龙",
-          stNum: null,
-          stStatusId: 1,
-          status: "待作答",
-          stStartTime: null,
-          stSubmitTime: null,
-          stIp: null,
-          correctRate: null,
-          stScore: null,
-          approveId: 1,
-          approve: "未批阅",
-          appIp: null,
-          stId: null,
-          username: "陈世龙",
-          email: "907167912@qq.com",
-          city: "成都",
-          phone: "15388409900",
-        },
-                {
-          id: 2,
-          pubId: 3,
-          stName: "陈世龙",
-          stNum: null,
-          stStatusId: 1,
-          status: "待作答",
-          stStartTime: null,
-          stSubmitTime: null,
-          stIp: null,
-          correctRate: null,
-          stScore: null,
-          approveId: 1,
-          approve: "未批阅",
-          appIp: null,
-          stId: null,
-          username: "陈世龙",
-          email: "907167912@qq.com",
-          city: "成都",
-          phone: "15388409900",
-        },
-                {
-          id: 2,
-          pubId: 3,
-          stName: "陈世龙",
-          stNum: null,
-          stStatusId: 1,
-          status: "待作答",
-          stStartTime: null,
-          stSubmitTime: null,
-          stIp: null,
-          correctRate: null,
-          stScore: null,
-          approveId: 1,
-          approve: "未批阅",
-          appIp: null,
-          stId: null,
-          username: "陈世龙",
-          email: "907167912@qq.com",
-          city: "成都",
-          phone: "15388409900",
-        },
       ],
     };
+  },
+  mounted() {
+    this.getAll()
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -159,10 +114,19 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+     this.info.page=val;
+     this.getAll
     },
     handleClick(a){
       console.log(a);
+    },
+ async getAll(){
+   this.info.pub_id=window.localStorage.getItem("examId")
+    const data =await RecycleBinExam(this.info)
+  if(data.code ==200){
+    this.records=data.data.records
+    this.total=data.data.total
+  }
     }
   },
 };

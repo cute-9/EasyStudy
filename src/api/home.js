@@ -16,7 +16,7 @@ export function selectBYtcid(data){
   })
 }
 export function deletetly(data){
-  console.log(data);
+  // console.log(data);
   return request({
     url: 'project/deletebyid',
     method: 'post',

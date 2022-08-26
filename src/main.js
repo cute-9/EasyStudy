@@ -9,10 +9,10 @@ import { parseTime } from "./utils/time"
 import axios from 'axios'
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
-
+Vue.prototype.localData = window.localStorage
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-
+Vue.prototype.localData = window.localStorage
 // 注册全局函数--多个
 // Object.keys(filters).forEach(key => {
 //   Vue.filter(key, filters[key])

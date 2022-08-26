@@ -10,10 +10,7 @@
       >
       <el-form-item>
     <div class="login_radio">
-    <el-radio-group v-model="loginForm.role">
-      <el-radio-button label="student"></el-radio-button>
-      <el-radio-button label="teacher"></el-radio-button>
-    </el-radio-group>
+<h2>易学登陆</h2>
   </div>
       </el-form-item>
         <el-form-item label="账号" prop="username">
@@ -129,7 +126,7 @@ export default {
             window.localStorage.setItem("token",res.data.token)
             // var id=res.data.info.id
                      window.localStorage.setItem("id",res.data.info.id)
-                    //  console.log(res.data.info);
+                    //  console.log(res.data.info.id);
             this.$router.push('/layout/home')
           })
           // this.$router.push("/");

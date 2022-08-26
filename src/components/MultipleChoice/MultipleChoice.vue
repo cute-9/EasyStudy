@@ -9,7 +9,7 @@
       <div>
         <el-checkbox-group v-model="radio" class="tt">
           <el-checkbox
-            :label="item.xxName"
+            :label="item.qsOption"
             v-for="(item, index) in dynamicForm.counter"
             :key="index"
             style="margin-bottom: 10px;margin-top:20px"
@@ -17,7 +17,7 @@
                     {{String.fromCharCode(index+65)}}
               <el-input
                 style="width: 230px"
-                v-model="item.xxName"
+                v-model="item.qsOption"
                 placeholder="选项答案"
                 autocomplete="off"
               ></el-input>
@@ -29,16 +29,18 @@
           </el-checkbox>
         </el-checkbox-group>
       </div>
+          <el-button @click="sureChoice">保存选项</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 export default {
+      emits:["MultipChoice"],
   data() {
     return {
       dynamicFormVisible: true,
-      radio: [ ],
+      radio: [],
       dynamicForm: {
         counter: [],
       },
@@ -47,7 +49,8 @@ export default {
   methods: {
     addInput() {
       this.dynamicForm.counter.push({
-        xxName: "",
+         qsOption:'fad',
+        isTrue:0,
       });
       console.log(this.dynamicForm.counter);
     },
@@ -57,6 +60,19 @@ export default {
     saveForm() {
       console.log(this.dynamicForm.counter);
     },
+        sureChoice(){
+      var dataChoice=JSON.parse(JSON.stringify(this.dynamicForm.counter))
+    var dataValue=JSON.parse(JSON.stringify(this.radio))
+    for(let i=0;i<dataChoice.length;i++){
+        var tt=dataChoice[i].qsOption
+        for(let j=0;j<dataValue.length;j++){
+                if(dataValue[j]==tt){
+                    dataChoice[i].isTrue=1
+                }
+        }
+    }
+this.$emit('MultipChoice',dataChoice)
+    }
   },
 };
 </script>

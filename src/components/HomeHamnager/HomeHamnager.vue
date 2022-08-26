@@ -40,13 +40,14 @@ export default {
     hanmger(prId){
       // console.log(123);
       // let id=prId
-      console.log(prId);
-      this.$router.push({
-        path:"/createExam/ExamPage",
-        query: {
-          "id":prId
-        }
-      })
+      // console.log(prId);
+      this.$router.push(
+      "/createExam/ExamPage",
+        // query: {
+        //   "id":prId
+        // }
+      )
+       window.localStorage.setItem("prId",prId)
     },
    async deletely(prId){
      const num=[];

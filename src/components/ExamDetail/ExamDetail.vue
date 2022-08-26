@@ -25,7 +25,7 @@
         <p >状态：{{examdetail.statusId}}</p>
         <p >试卷总分{{examdetail.tsScore}}分</p>
       <div class="desrc_read_over">
-        <el-button type='success' @click="readOver">批阅</el-button>
+        <el-button type='success' @click="readOver(examdetail.id)">批阅</el-button>
       </div>
       </div> 
     </el-card>
@@ -78,8 +78,14 @@ this.centerDialogVisible=true
       this.centerDialogVisible=false
     }
   },
-    readOver(){
-      this.$router.push('/createExam/lookRemark')
+    readOver(id){
+       window.localStorage.setItem("examId",id)
+
+    let objData = JSON.stringify(this.examdetail)
+      this.$router.push({path:'/createExam/lookRemark',
+query:{examInfo: encodeURIComponent(objData)}
+
+      })
     }
   }
 };

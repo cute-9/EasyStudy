@@ -12,6 +12,7 @@ import CorrectExam from "./CorrectExam"
 import AddStudents from './AddStudents'
 import   CreateQuestion from './CreateQuestion'
 import LeftSidebar from './LeftSidebar'
+import CreateNewQuestion from './CreateNewQuestion'
 
 export {
   HIdentify,
@@ -27,4 +28,5 @@ export {
   AddStudents,
   CreateQuestion,
   LeftSidebar,
+  CreateNewQuestion
 }
